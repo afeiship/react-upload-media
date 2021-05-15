@@ -23,12 +23,17 @@ export default class ReactUploadMedia extends Component {
     /**
      * The change handler.
      */
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    /**
+     * The handler when file upload.
+     */
+    onUpload: PropTypes.func
   };
 
   static defaultProps = {
     value: [],
-    onChange: noop
+    onChange: noop,
+    onUpload: noop
   };
 
   constructor(inProps) {
@@ -51,12 +56,14 @@ export default class ReactUploadMedia extends Component {
     this.notify = notify;
   };
 
-  handleChange = (inEvent) => {
+  handleUploadChange = (inEvent) => {
     const { value } = this.state;
+    const { onUpload } = this.props;
     const { blobs } = inEvent.target.value;
     const _value = value.concat(blobs);
     this.setState({ value: _value });
     this.notify();
+    onUpload(inEvent);
   };
 
   template = ({ item, index, items, change }, cb) => {
@@ -79,14 +86,12 @@ export default class ReactUploadMedia extends Component {
   };
 
   templateCreate = ({ change }, cb) => {
-    const { className, onChange, value, ...props } = this.props;
     return (
       <div className="is-item is-uploader">
         <ReactUpload
           multiple
           className="is-form-control"
-          onChange={this.handleChange}
-          {...props}
+          onChange={this.handleUploadChange}
         />
         <span className="is-placeholder">点击上传 ϔ</span>
       </div>
@@ -94,7 +99,7 @@ export default class ReactUploadMedia extends Component {
   };
 
   render() {
-    const { className, value, ...props } = this.props;
+    const { className, value, onUpload, ...props } = this.props;
     const _value = this.state.value;
 
     return (

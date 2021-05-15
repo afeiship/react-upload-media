@@ -17,6 +17,10 @@ class App extends React.Component {
     console.log('event;', e.target.value);
   };
 
+  handleUpload = (e) => {
+    console.log('upload info:', e.target.value);
+  };
+
   render() {
     return (
       <ReactDemokit
@@ -25,6 +29,7 @@ class App extends React.Component {
         <ReactUploadMedia
           value={this.state.value}
           onChange={this.handleChange}
+          onUpload={this.handleUpload}
         />
       </ReactDemokit>
     );
