@@ -18,6 +18,7 @@ __GENERATE_DOCS__
 1. import css
   ```scss
   @import "~@jswork/wsui-frame-wrapper/dist/index.scss";
+  @import "~@jswork/react-fade-image/dist/style.scss";
   @import "~@jswork/react-upload-self/dist/style.scss";
   @import "~@jswork/react-upload-media/dist/style.scss";
 

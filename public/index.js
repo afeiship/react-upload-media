@@ -18,7 +18,16 @@ class App extends React.Component {
   };
 
   handleUpload = (e) => {
-    console.log('upload info:', e.target.value);
+    console.log('update. e:', e.target.value);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([
+          'https://randomuser.me/api/portraits/lego/1.jpg',
+          'https://randomuser.me/api/portraits/lego/2.jpg',
+        ]);
+      }, 1000);
+    });
+    // console.log('upload info:', e.target.value);
   };
 
   render() {

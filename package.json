@@ -84,7 +84,7 @@
     "@jswork/react-interactive-list": "^1.0.6",
     "@jswork/react-list": "^1.0.1",
     "@jswork/react-upload": "^1.0.1",
-    "@jswork/react-upload-self": "^1.0.3",
+    "@jswork/react-upload-self": "^1.0.4",
     "classnames": "^2.2.6"
   },
   "publishConfig": {

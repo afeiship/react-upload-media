@@ -33,7 +33,7 @@ export default class ReactUploadMedia extends Component {
   static defaultProps = {
     value: [],
     onChange: noop,
-    onUpload: noop
+    onUpload: Promise.resove
   };
 
   constructor(inProps) {
@@ -63,7 +63,12 @@ export default class ReactUploadMedia extends Component {
     const _value = value.concat(blobs);
     this.setState({ value: _value });
     this.notify();
-    onUpload(inEvent);
+    onUpload(inEvent).then((res) => {
+      const count = blobs.length;
+      _value.splice(_value.length - count, count, ...res);
+      this.setState({ value: _value });
+      this.notify();
+    });
   };
 
   template = ({ item, index, items, change }, cb) => {
