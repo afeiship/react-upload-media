@@ -15,6 +15,7 @@ npm install -S @jswork/react-upload-media
 | Name      | Type   | Required | Default        | Description                           |
 | --------- | ------ | -------- | -------------- | ------------------------------------- |
 | className | string | false    | -              | The extended className for component. |
+| fileProps | object | false    | -              | Input.file props.                     |
 | value     | array  | false    | []             | The changed value.                    |
 | onChange  | func   | false    | noop           | The change handler.                   |
 | onUpload  | func   | false    | Promise.resove | The handler when file upload.         |
