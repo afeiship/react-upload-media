@@ -113,7 +113,7 @@ export default class ReactUploadMedia extends Component {
   };
 
   render() {
-    const { className, value, onUpload, accept, ...props } = this.props;
+    const { className, value, onUpload, fileProps, ...props } = this.props;
     const _value = this.state.value;
 
     return (
