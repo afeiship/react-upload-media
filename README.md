@@ -17,6 +17,7 @@ npm install -S @jswork/react-upload-media
 | className | string | false    | -       | The extended className for component. |
 | value     | array  | false    | []      | The changed value.                    |
 | onChange  | func   | false    | noop    | The change handler.                   |
+| onUpload  | func   | false    | noop    | The handler when file upload.         |
 
 
 ## usage
@@ -50,6 +51,10 @@ npm install -S @jswork/react-upload-media
       console.log('event;', e.target.value);
     };
 
+    handleUpload = (e) => {
+      console.log('upload info:', e.target.value);
+    };
+
     render() {
       return (
         <ReactDemokit
@@ -58,6 +63,7 @@ npm install -S @jswork/react-upload-media
           <ReactUploadMedia
             value={this.state.value}
             onChange={this.handleChange}
+            onUpload={this.handleUpload}
           />
         </ReactDemokit>
       );
