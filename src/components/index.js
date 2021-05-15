@@ -17,6 +17,10 @@ export default class ReactUploadMedia extends Component {
      */
     className: PropTypes.string,
     /**
+     * Input.file props.
+     */
+    fileProps: PropTypes.object,
+    /**
      * The changed value.
      */
     value: PropTypes.array,
@@ -33,7 +37,10 @@ export default class ReactUploadMedia extends Component {
   static defaultProps = {
     value: [],
     onChange: noop,
-    onUpload: Promise.resove
+    onUpload: Promise.resove,
+    fileProps: {
+      accept: 'image/*'
+    }
   };
 
   constructor(inProps) {
@@ -83,7 +90,7 @@ export default class ReactUploadMedia extends Component {
             this.notify();
           }}
         />
-        <button className="is-action is-remove" onClick={cb}>
+        <button type="button" className="is-action is-remove" onClick={cb}>
           X
         </button>
       </div>
@@ -91,10 +98,12 @@ export default class ReactUploadMedia extends Component {
   };
 
   templateCreate = ({ change }, cb) => {
+    const { accept } = this.props;
     return (
       <div className="is-item is-uploader">
         <ReactUpload
           multiple
+          accept={accept}
           className="is-form-control"
           onChange={this.handleUploadChange}
         />
@@ -104,7 +113,7 @@ export default class ReactUploadMedia extends Component {
   };
 
   render() {
-    const { className, value, onUpload, ...props } = this.props;
+    const { className, value, onUpload, accept, ...props } = this.props;
     const _value = this.state.value;
 
     return (
