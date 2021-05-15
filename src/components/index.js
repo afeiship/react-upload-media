@@ -40,7 +40,7 @@ export default class ReactUploadMedia extends Component {
   }
 
   shouldComponentUpdate(inProps) {
-    const { value } = this.state;
+    const { value } = inProps;
     if (value !== this.state.value) {
       this.setState({ value });
     }
