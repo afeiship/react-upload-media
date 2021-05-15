@@ -39,6 +39,14 @@ export default class ReactUploadMedia extends Component {
     };
   }
 
+  shouldComponentUpdate(inProps) {
+    const { value } = this.state;
+    if (value !== this.state.value) {
+      this.setState({ value });
+    }
+    return true;
+  }
+
   handleInit = ({ notify }) => {
     this.notify = notify;
   };
