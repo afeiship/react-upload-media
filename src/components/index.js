@@ -3,7 +3,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactUpload from '@jswork/react-upload';
-import ReactList from '@jswork/react-list';
+import ReactInteractiveList from '@jswork/react-interactive-list';
+import ReactUploadSelf from '@jswork/react-upload-self';
 
 const CLASS_NAME = 'react-upload-media';
 
@@ -18,7 +19,7 @@ export default class ReactUploadMedia extends Component {
     /**
      * The changed value.
      */
-    value: PropTypes.object,
+    value: PropTypes.array,
     /**
      * The change handler.
      */
@@ -26,54 +27,80 @@ export default class ReactUploadMedia extends Component {
   };
 
   static defaultProps = {
+    value: [],
     onChange: noop
   };
 
   constructor(inProps) {
     super(inProps);
+    this.notify = noop;
     this.state = {
-      medias: []
+      value: inProps.value
     };
   }
 
-  handleChange = (inEvent) => {
-    const { medias } = this.state;
-    const { blobs } = inEvent.target.value;
-    this.setState({ medias: medias.concat(blobs) });
+  handleInit = ({ notify }) => {
+    this.notify = notify;
   };
 
-  templateMedia = ({ item, index }) => {
+  handleChange = (inEvent) => {
+    const { value } = this.state;
+    const { blobs } = inEvent.target.value;
+    const _value = value.concat(blobs);
+    this.setState({ value: _value });
+    this.notify();
+  };
+
+  template = ({ item, index, items, change }, cb) => {
     return (
-      <div key={index} className="is-item">
-        <img src={item} />
+      <div className="is-item is-image" key={index}>
+        <ReactUploadSelf
+          key={index}
+          value={item}
+          onChange={(e) => {
+            items[index] = e.target.value;
+            this.notify();
+          }}
+        />
+        <button className="is-action is-remove" onClick={cb}>
+          X
+        </button>
+      </div>
+    );
+  };
+
+  templateCreate = ({ change }, cb) => {
+    const { className, onChange, value, ...props } = this.props;
+    return (
+      <div className="is-item is-uploader">
+        <ReactUpload
+          multiple
+          className="is-form-control"
+          onChange={this.handleChange}
+          {...props}
+        />
+        <span className="is-placeholder">点击上传 ϔ</span>
       </div>
     );
   };
 
   render() {
-    const { className, onChange, ...props } = this.props;
-    const { medias } = this.state;
+    const { className, value, ...props } = this.props;
+    const _value = this.state.value;
 
     return (
-      <div
+      <ReactInteractiveList
+        min={0}
+        virtual
+        items={_value}
+        template={this.template}
+        templateDefault={this.templateDefault}
+        templateCreate={this.templateCreate}
         data-component={CLASS_NAME}
-        className={classNames(CLASS_NAME, className)}>
-        <ReactList
-          virtual
-          items={medias}
-          template={this.templateMedia}
-          className="is-medias"
-        />
-        <div className="is-item is-uploader">
-          <ReactUpload
-            multiple
-            className="is-form-control"
-            onChange={this.handleChange}
-            {...props}
-          />
-          <span className="is-placeholder">点击上传 ϔ</span>
-        </div>
-      </div>
+        className={classNames(CLASS_NAME, className)}
+        onInit={this.handleInit}
+        {...props}
+      />
     );
   }
 }
