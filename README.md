@@ -15,16 +15,15 @@ npm install -S @jswork/react-upload-media
 | Name      | Type   | Required | Default | Description                           |
 | --------- | ------ | -------- | ------- | ------------------------------------- |
 | className | string | false    | -       | The extended className for component. |
-| value     | object | false    | null    | The changed value.                    |
+| value     | array  | false    | []      | The changed value.                    |
 | onChange  | func   | false    | noop    | The change handler.                   |
 
 
 ## usage
 1. import css
   ```scss
-  @import "~@jswork/react-upload-media/dist/style.css";
-
-  // or use sass
+  @import "~@jswork/wsui-frame-wrapper/dist/index.scss";
+  @import "~@jswork/react-upload-self/dist/style.scss";
   @import "~@jswork/react-upload-media/dist/style.scss";
 
   // customize your styles:
@@ -39,13 +38,27 @@ npm install -S @jswork/react-upload-media
   import './assets/style.scss';
 
   class App extends React.Component {
+    state = {
+      value: [
+        'https://tva1.sinaimg.cn/large/007S8ZIlgy1gexw87htqhj305k05k74o.jpg',
+        'https://tva1.sinaimg.cn/large/008i3skNgy1gqh868msafj302s02st8l.jpg'
+      ]
+    };
+
+    handleChange = (e) => {
+      this.setState({ value: e.target.value });
+      console.log('event;', e.target.value);
+    };
+
     render() {
       return (
         <ReactDemokit
           className="p-3 app-container"
           url="https://github.com/afeiship/react-upload-media">
-          <ReactUploadMedia className="mb-5 has-text-white" />
-          <button className="button is-primary is-fullwidth">Start~</button>
+          <ReactUploadMedia
+            value={this.state.value}
+            onChange={this.handleChange}
+          />
         </ReactDemokit>
       );
     }
