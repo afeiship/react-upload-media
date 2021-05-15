@@ -66,7 +66,8 @@ export default class ReactUploadMedia extends Component {
           key={index}
           value={item}
           onChange={(e) => {
-            items[index] = e.target.value;
+            const value = e.target.value;
+            items[index] = value ? value.blobs[0] : null;
             this.notify();
           }}
         />
