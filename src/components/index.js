@@ -63,31 +63,26 @@ export default class ReactUploadMedia extends Component {
     this.notify = notify;
   };
 
-  handleUploadChange = (inEvent) => {
+  template = ({ item, index, items }, cb) => {
     const { value } = this.state;
     const { onUpload } = this.props;
-    const { blobs } = inEvent.target.value;
-    const _value = value.concat(blobs);
-    this.setState({ value: _value });
-    this.notify();
-    onUpload(inEvent).then((res) => {
-      const count = blobs.length;
-      _value.splice(_value.length - count, count, ...res);
-      this.setState({ value: _value });
-      this.notify();
-    });
-  };
-
-  template = ({ item, index, items, change }, cb) => {
     return (
       <div className="is-item is-image" key={index}>
         <ReactUploadSelf
           key={index}
           value={item}
           onChange={(e) => {
-            const value = e.target.value;
-            items[index] = value ? value.blobs[0] : null;
+            const { url } = e.target.value;
+            if (!url) return;
+            const target = { value: [e.target.value] };
+            items[index] = url;
             this.notify();
+
+            onUpload({ target }).then((res) => {
+              value[index] = res[0];
+              this.setState({ value });
+              this.notify();
+            });
           }}
         />
         <button type="button" className="is-action is-remove" onClick={cb}>
@@ -97,15 +92,30 @@ export default class ReactUploadMedia extends Component {
     );
   };
 
-  templateCreate = ({ change }, cb) => {
-    const { accept } = this.props;
+  templateCreate = ({ items }) => {
+    const { accept, fileProps } = this.props;
     return (
       <div className="is-item is-uploader">
         <ReactUpload
           multiple
           accept={accept}
           className="is-form-control"
-          onChange={this.handleUploadChange}
+          onChange={(inEvent) => {
+            const { value } = this.state;
+            const { onUpload } = this.props;
+            const blobs = inEvent.target.value.map((item) => item.url);
+            const urls = value.concat(blobs);
+            blobs.forEach((blob) => items.push(blob));
+            this.setState({ value: urls });
+            this.notify();
+            onUpload(inEvent).then((res) => {
+              const count = blobs.length;
+              urls.splice(urls.length - count, count, ...res);
+              this.setState({ value: urls });
+              this.notify();
+            });
+          }}
+          {...fileProps}
         />
         <span className="is-placeholder">点击上传 ϔ</span>
       </div>
@@ -122,7 +132,6 @@ export default class ReactUploadMedia extends Component {
         virtual
         items={_value}
         template={this.template}
-        templateDefault={this.templateDefault}
         templateCreate={this.templateCreate}
         data-component={CLASS_NAME}
         className={classNames(CLASS_NAME, className)}

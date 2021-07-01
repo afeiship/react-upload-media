@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import ReactUploadMedia from '../src/main';
 import './assets/style.scss';
 
+import '@jswork/next-times';
+
 class App extends React.Component {
   state = {
     value: [
@@ -14,18 +16,21 @@ class App extends React.Component {
 
   handleChange = (e) => {
     this.setState({ value: e.target.value });
-    console.log('event;', e.target.value);
   };
 
   handleUpload = (e) => {
-    console.log('update. e:', e.target.value);
+    console.log('loading...');
+    const values = e.target.value;
+    console.log('values:', values);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve([
-          'https://randomuser.me/api/portraits/lego/1.jpg',
-          'https://randomuser.me/api/portraits/lego/2.jpg',
-        ]);
-      }, 1000);
+        const urls = nx.times(
+          values.length,
+          (idx) => `https://randomuser.me/api/portraits/lego/${idx + 1}.jpg`
+        );
+        console.log('done', urls);
+        resolve(urls);
+      }, 2000);
     });
     // console.log('upload info:', e.target.value);
   };
