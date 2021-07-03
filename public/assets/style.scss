@@ -6,12 +6,13 @@
 @import "~@jswork/react-fade-image/dist/style.scss";
 @import "~@jswork/react-upload-self/dist/style.scss";
 @import "~@jswork/wsui-scaleable-image/dist/index.scss";
+@import '~@jswork/wsui-em-justify-list/dist/index.scss';
 
 .app-container {
   .is-body {
     padding: 20px;
     background: #fff;
-    width: 50%;
+    width: 60%;
     min-width: 320px;
     margin: 0 auto;
   }

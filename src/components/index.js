@@ -25,6 +25,10 @@ export default class ReactUploadMedia extends Component {
      */
     value: PropTypes.array,
     /**
+     * Every line's count.
+     */
+    count: PropTypes.number,
+    /**
      * The change handler.
      */
     onChange: PropTypes.func,
@@ -36,6 +40,7 @@ export default class ReactUploadMedia extends Component {
 
   static defaultProps = {
     value: [],
+    count: 5,
     onChange: noop,
     onUpload: Promise.resove,
     fileProps: { accept: 'image/*' }
@@ -104,13 +109,16 @@ export default class ReactUploadMedia extends Component {
           }}
           {...fileProps}
         />
-        <span className="is-placeholder">点击上传 ϔ</span>
+        <span className="is-placeholder">
+          点击上传 ϔ <br />
+          Tips: 点击图片即可替换
+        </span>
       </div>
     );
   };
 
   render() {
-    const { className, value, onUpload, fileProps, ...props } = this.props;
+    const { className, value, count, onUpload, fileProps, ...props } = this.props;
     const _value = this.state.value;
 
     return (
@@ -120,7 +128,8 @@ export default class ReactUploadMedia extends Component {
         template={this.template}
         templateCreate={this.templateCreate}
         data-component={CLASS_NAME}
-        className={classNames(CLASS_NAME, className)}
+        data-count={count}
+        className={classNames(CLASS_NAME, 'wsui-em-justify-list', className)}
         {...props}
       />
     );

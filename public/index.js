@@ -10,7 +10,13 @@ class App extends React.Component {
   state = {
     value: [
       'https://tva1.sinaimg.cn/large/007S8ZIlgy1gexw87htqhj305k05k74o.jpg',
-      'https://tva1.sinaimg.cn/large/008i3skNgy1gqh868msafj302s02st8l.jpg'
+      'https://tva1.sinaimg.cn/large/008i3skNgy1gqh868msafj302s02st8l.jpg',
+      'https://randomuser.me/api/portraits/lego/1.jpg',
+      'https://randomuser.me/api/portraits/lego/2.jpg',
+      'https://randomuser.me/api/portraits/lego/3.jpg',
+      'https://randomuser.me/api/portraits/lego/4.jpg',
+      'https://randomuser.me/api/portraits/lego/5.jpg',
+      'https://randomuser.me/api/portraits/lego/6.jpg',
     ]
   };
 

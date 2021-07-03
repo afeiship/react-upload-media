@@ -21,6 +21,7 @@ __GENERATE_DOCS__
   @import "~@jswork/react-fade-image/dist/style.scss";
   @import "~@jswork/react-upload-self/dist/style.scss";
   @import "~@jswork/react-upload-media/dist/style.scss";
+  @import '~@jswork/wsui-em-justify-list/dist/index.scss';
 
   // customize your styles:
   $react-upload-media-options: ()
