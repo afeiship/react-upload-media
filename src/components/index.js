@@ -38,30 +38,21 @@ export default class ReactUploadMedia extends Component {
     value: [],
     onChange: noop,
     onUpload: Promise.resove,
-    fileProps: {
-      accept: 'image/*'
-    }
+    fileProps: { accept: 'image/*' }
   };
 
   constructor(inProps) {
     super(inProps);
-    this.notify = noop;
-    this.state = {
-      value: inProps.value
-    };
+    this.state = { value: inProps.value };
   }
 
   shouldComponentUpdate(inProps) {
     const { value } = inProps;
-    if (value !== this.state.value) {
+    if (value.toString() !== this.state.value.toString()) {
       this.setState({ value });
     }
     return true;
   }
-
-  handleInit = ({ notify }) => {
-    this.notify = notify;
-  };
 
   template = ({ item, index, items }, cb) => {
     const { value } = this.state;
@@ -76,12 +67,10 @@ export default class ReactUploadMedia extends Component {
             if (!url) return;
             const target = { value: [e.target.value] };
             items[index] = url;
-            this.notify();
 
             onUpload({ target }).then((res) => {
               value[index] = res[0];
               this.setState({ value });
-              this.notify();
             });
           }}
         />
@@ -107,12 +96,10 @@ export default class ReactUploadMedia extends Component {
             const urls = value.concat(blobs);
             blobs.forEach((blob) => items.push(blob));
             this.setState({ value: urls });
-            this.notify();
             onUpload(inEvent).then((res) => {
               const count = blobs.length;
               urls.splice(urls.length - count, count, ...res);
               this.setState({ value: urls });
-              this.notify();
             });
           }}
           {...fileProps}
@@ -129,13 +116,11 @@ export default class ReactUploadMedia extends Component {
     return (
       <ReactInteractiveList
         min={0}
-        virtual
         items={_value}
         template={this.template}
         templateCreate={this.templateCreate}
         data-component={CLASS_NAME}
         className={classNames(CLASS_NAME, className)}
-        onInit={this.handleInit}
         {...props}
       />
     );
