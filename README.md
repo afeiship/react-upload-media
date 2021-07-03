@@ -12,13 +12,14 @@ npm install -S @jswork/react-upload-media
 ```
 
 ## properties
-| Name      | Type   | Required | Default        | Description                           |
-| --------- | ------ | -------- | -------------- | ------------------------------------- |
-| className | string | false    | -              | The extended className for component. |
-| fileProps | object | false    | -              | Input.file props.                     |
-| value     | array  | false    | []             | The changed value.                    |
-| onChange  | func   | false    | noop           | The change handler.                   |
-| onUpload  | func   | false    | Promise.resove | The handler when file upload.         |
+| Name      | Type   | Required | Default                | Description                           |
+| --------- | ------ | -------- | ---------------------- | ------------------------------------- |
+| className | string | false    | -                      | The extended className for component. |
+| fileProps | object | false    | { accept: 'image/\*' } | Input.file props.                     |
+| value     | array  | false    | []                     | The changed value.                    |
+| count     | number | false    | 5                      | Every line's count.                   |
+| onChange  | func   | false    | noop                   | The change handler.                   |
+| onUpload  | func   | false    | Promise.resove         | The handler when file upload.         |
 
 
 ## usage
@@ -28,6 +29,7 @@ npm install -S @jswork/react-upload-media
   @import "~@jswork/react-fade-image/dist/style.scss";
   @import "~@jswork/react-upload-self/dist/style.scss";
   @import "~@jswork/react-upload-media/dist/style.scss";
+  @import '~@jswork/wsui-em-justify-list/dist/index.scss';
 
   // customize your styles:
   $react-upload-media-options: ()
@@ -46,11 +48,18 @@ npm install -S @jswork/react-upload-media
     state = {
       value: [
         'https://tva1.sinaimg.cn/large/007S8ZIlgy1gexw87htqhj305k05k74o.jpg',
-        'https://tva1.sinaimg.cn/large/008i3skNgy1gqh868msafj302s02st8l.jpg'
+        'https://tva1.sinaimg.cn/large/008i3skNgy1gqh868msafj302s02st8l.jpg',
+        'https://randomuser.me/api/portraits/lego/1.jpg',
+        'https://randomuser.me/api/portraits/lego/2.jpg',
+        'https://randomuser.me/api/portraits/lego/3.jpg',
+        'https://randomuser.me/api/portraits/lego/4.jpg',
+        'https://randomuser.me/api/portraits/lego/5.jpg',
+        'https://randomuser.me/api/portraits/lego/6.jpg',
       ]
     };
 
     handleChange = (e) => {
+      console.log(e.target.value);
       this.setState({ value: e.target.value });
     };
 
