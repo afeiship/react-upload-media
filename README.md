@@ -12,14 +12,14 @@ npm install -S @jswork/react-upload-media
 ```
 
 ## properties
-| Name      | Type   | Required | Default                | Description                           |
-| --------- | ------ | -------- | ---------------------- | ------------------------------------- |
-| className | string | false    | -                      | The extended className for component. |
-| fileProps | object | false    | { accept: 'image/\*' } | Input.file props.                     |
-| value     | array  | false    | []                     | The changed value.                    |
-| count     | number | false    | 5                      | Every line's count.                   |
-| onChange  | func   | false    | noop                   | The change handler.                   |
-| onUpload  | func   | false    | Promise.resove         | The handler when file upload.         |
+| Name      | Type   | Required | Default        | Description                           |
+| --------- | ------ | -------- | -------------- | ------------------------------------- |
+| className | string | false    | -              | The extended className for component. |
+| fileProps | object | false    | -              | Input.file props.                     |
+| value     | array  | false    | []             | The changed value.                    |
+| count     | number | false    | -              | The line count.                       |
+| onChange  | func   | false    | noop           | The change handler.                   |
+| onUpload  | func   | false    | Promise.resove | The handler when file upload.         |
 
 
 ## usage
@@ -87,6 +87,7 @@ npm install -S @jswork/react-upload-media
           className="p-3 app-container"
           url="https://github.com/afeiship/react-upload-media">
           <ReactUploadMedia
+            count={4}
             value={this.state.value}
             onChange={this.handleChange}
             onUpload={this.handleUpload}
