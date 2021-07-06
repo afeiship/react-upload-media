@@ -25,7 +25,7 @@ export default class ReactUploadMedia extends Component {
      */
     value: PropTypes.array,
     /**
-     * Every line's count.
+     * The line count.
      */
     count: PropTypes.number,
     /**
@@ -40,13 +40,30 @@ export default class ReactUploadMedia extends Component {
 
   static defaultProps = {
     value: [],
-    count: 5,
     onChange: noop,
     onUpload: Promise.resove,
-    fileProps: { accept: 'image/*' }
+    fileProps: {
+      accept: 'image/*'
+    }
   };
 
+  constructor(inProps) {
+    super(inProps);
+    this.state = {
+      value: inProps.value
+    };
+  }
+
+  shouldComponentUpdate(inProps) {
+    const { value } = inProps;
+    if (value !== this.state.value) {
+      this.setState({ value });
+    }
+    return true;
+  }
+
   template = ({ item, index, items }, cb) => {
+    const { value } = this.state;
     const { onUpload } = this.props;
     return (
       <div className="is-item is-image" key={index}>
@@ -58,8 +75,11 @@ export default class ReactUploadMedia extends Component {
             if (!url) return;
             const target = { value: [e.target.value] };
             items[index] = url;
+            this.list.notify();
+
             onUpload({ target }).then((res) => {
-              items[index] = res[0];
+              value[index] = res[0];
+              this.setState({ value });
               this.list.notify();
             });
           }}
@@ -80,32 +100,36 @@ export default class ReactUploadMedia extends Component {
           accept={accept}
           className="is-form-control"
           onChange={(inEvent) => {
+            const { value } = this.state;
             const { onUpload } = this.props;
             const blobs = inEvent.target.value.map((item) => item.url);
+            const urls = value.concat(blobs);
             blobs.forEach((blob) => items.push(blob));
+            this.setState({ value: urls });
+            this.list.notify();
             onUpload(inEvent).then((res) => {
               const count = blobs.length;
-              items.splice(items.length - count, count, ...res);
+              urls.splice(urls.length - count, count, ...res);
+              this.setState({ value: urls });
               this.list.notify();
             });
           }}
           {...fileProps}
         />
-        <span className="is-placeholder">
-          点击上传 ϔ <br />
-          Tips: 点击图片即可替换
-        </span>
+        <span className="is-placeholder">点击上传 ϔ</span>
       </div>
     );
   };
 
   render() {
     const { className, value, count, onUpload, fileProps, ...props } = this.props;
+    const _value = this.state.value;
 
     return (
       <ReactInteractiveList
         min={0}
-        items={value}
+        virtual
+        items={_value}
         template={this.template}
         templateCreate={this.templateCreate}
         data-component={CLASS_NAME}

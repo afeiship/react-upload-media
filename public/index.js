@@ -49,6 +49,7 @@ class App extends React.Component {
         className="p-3 app-container"
         url="https://github.com/afeiship/react-upload-media">
         <ReactUploadMedia
+          count={4}
           value={this.state.value}
           onChange={this.handleChange}
           onUpload={this.handleUpload}
