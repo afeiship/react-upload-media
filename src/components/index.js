@@ -46,21 +46,7 @@ export default class ReactUploadMedia extends Component {
     fileProps: { accept: 'image/*' }
   };
 
-  constructor(inProps) {
-    super(inProps);
-    this.state = { value: inProps.value };
-  }
-
-  shouldComponentUpdate(inProps) {
-    const { value } = inProps;
-    if (value.toString() !== this.state.value.toString()) {
-      this.setState({ value });
-    }
-    return true;
-  }
-
   template = ({ item, index, items }, cb) => {
-    const { value } = this.state;
     const { onUpload } = this.props;
     return (
       <div className="is-item is-image" key={index}>
@@ -72,10 +58,9 @@ export default class ReactUploadMedia extends Component {
             if (!url) return;
             const target = { value: [e.target.value] };
             items[index] = url;
-
             onUpload({ target }).then((res) => {
-              value[index] = res[0];
-              this.setState({ value });
+              items[index] = res[0];
+              this.list.notify();
             });
           }}
         />
@@ -95,16 +80,13 @@ export default class ReactUploadMedia extends Component {
           accept={accept}
           className="is-form-control"
           onChange={(inEvent) => {
-            const { value } = this.state;
             const { onUpload } = this.props;
             const blobs = inEvent.target.value.map((item) => item.url);
-            const urls = value.concat(blobs);
             blobs.forEach((blob) => items.push(blob));
-            this.setState({ value: urls });
             onUpload(inEvent).then((res) => {
               const count = blobs.length;
-              urls.splice(urls.length - count, count, ...res);
-              this.setState({ value: urls });
+              items.splice(items.length - count, count, ...res);
+              this.list.notify();
             });
           }}
           {...fileProps}
@@ -119,17 +101,17 @@ export default class ReactUploadMedia extends Component {
 
   render() {
     const { className, value, count, onUpload, fileProps, ...props } = this.props;
-    const _value = this.state.value;
 
     return (
       <ReactInteractiveList
         min={0}
-        items={_value}
+        items={value}
         template={this.template}
         templateCreate={this.templateCreate}
         data-component={CLASS_NAME}
         data-count={count}
         className={classNames(CLASS_NAME, 'wsui-em-justify-list', className)}
+        ref={(list) => (this.list = list)}
         {...props}
       />
     );

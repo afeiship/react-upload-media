@@ -8,6 +8,7 @@ import '@jswork/next-times';
 
 class App extends React.Component {
   state = {
+    value2:[],
     value: [
       'https://tva1.sinaimg.cn/large/007S8ZIlgy1gexw87htqhj305k05k74o.jpg',
       'https://tva1.sinaimg.cn/large/008i3skNgy1gqh868msafj302s02st8l.jpg',
@@ -21,7 +22,7 @@ class App extends React.Component {
   };
 
   handleChange = (e) => {
-    console.log(e.target.value);
+    console.log('handle change:',e.target.value);
     this.setState({ value: e.target.value });
   };
 
