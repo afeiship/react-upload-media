@@ -128,7 +128,6 @@ export default class ReactUploadMedia extends Component {
     return (
       <ReactInteractiveList
         min={0}
-        virtual
         items={_value}
         template={this.template}
         templateCreate={this.templateCreate}
